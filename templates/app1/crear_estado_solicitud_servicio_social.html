@@ -1,0 +1,141 @@
+{% extends 'base/base.html' %}
+{%block title%}
+    Crear Estado de Solicitud de Servicio Social
+{%endblock%}
+{% block content %}
+
+{% load static %}
+    <link rel = "stylesheet" href = "{% static 'css/stylePrueba.css' %}">
+    <link rel = "stylesheet" href = "{% static 'css/sweet-alert.css' %}">
+    <link rel = "stylesheet" href = "{% static 'css/bootstrap.min-PRUEBA.css' %}">
+    
+  <header>
+    <div class="container">
+        <h2 align="center" class="form-titulo" style ="margin-left: 5px;">Registro de Estado de Solicitud de Servicio Social</h2>
+        </br></br></br>
+    </div>
+  </header>
+
+<div class="container-fluid">
+    <div class="container-flat-form">
+        <div class="title-flat-form title-flat-green">Registrar Estado de Solicitud de Servicio Social</div>
+            {% if object %}
+                <form role = "form" action="{% url 'proyeccionsocial:editar_estado_solicitud_servicio_social' object.pk %}" method="POST">
+            {% else %}
+                <form role = "form" action="{% url 'proyeccionsocial:crear_estado_solicitud_servicio_social' user.username %}" method="POST">
+            {% endif %}
+
+                <div class="row">
+                    <div class="col-xs-14 col-sm-8 col-sm-offset-2">
+                    {% csrf_token %}
+                        {{form.errors}}
+
+                        {% if object %}
+                            <div class="group-material" style="display:none;">
+                                <div class="row-xx">
+                                    <div class="col-8 col-sm-6">
+                                        {{form.carnet_estudiante.label_tag}}
+                                    </div>
+                                    <div class="col-4 col-sm-6">
+                                        {{form.carnet_estudiante}}
+                                        </br>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="group-material">
+                                <div class="row-xx">
+                                    <div class="col-8 col-sm-6">
+                                        {{form.carnet_estudiante.label_tag}}
+                                    </div>
+                                    <div class="col-4 col-sm-6">
+                                        {{form.carnet_estudiante}}
+                                        </br>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="group-material">
+                            <div class="row-xx">
+                                <div class="col-8 col-sm-6">
+                                    {{form.aceptado.label_tag}}
+                                </div>
+                                <div class="col-4 col-sm-6">
+                                    {{form.aceptado}}
+                                    </br>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if object %}
+                            </br>
+                        {% else %}
+                            </br></br></br></br>
+                        {% endif %}
+
+                        <div class="group-material">
+                            {{form.motivo}}
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            {{form.motivo.label_tag}}
+                        </div>
+
+                        <div class="group-material">
+                            {{form.observaciones}}
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            {{form.observaciones.label_tag}}
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <div class="col-lg-12 text-right">
+                        <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Guardar">
+                        <a href = "{% url 'proyeccionsocial:consulta_solicitud_servicio_social' user.username %}"><input type="button" href="{% url 'proyeccionsocial:consulta_solicitud_servicio_social' user.username %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Cancelar"></a>
+                    </div>
+                </div>
+                
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
+                Tooltip on right
+            </button>
+            <h5>Popover in a modal</h5>
+            <p>This button triggers a popover on click.</p>
+            <hr>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+{% endblock %}

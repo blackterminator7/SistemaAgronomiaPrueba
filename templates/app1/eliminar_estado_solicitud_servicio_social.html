@@ -1,0 +1,18 @@
+<div>
+	<div class="modal-content">
+		<form action=" {% url 'proyeccionsocial:eliminar_estado_solicitud_servicio_social' object.pk %}" method="post">
+			<div class="modal-body">
+				{% csrf_token %}
+				<div class="mdl-dialog__content" align="center">
+					<h4> ¿Realmente desea eliminar el Estado de esta Solicitud? </h4>
+				</div>
+			</div>
+			<div class="modal-footer">
+            	<div class="col-lg-12 text-right">
+            		<input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Si, Eliminar">
+                 	<a href = "{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social_consulta' user.username %}"><input type="button" href="{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social_consulta' user.username %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Cancelar"></a>
+            	</div>
+        	</div>
+		</form>
+	</div>
+</div>

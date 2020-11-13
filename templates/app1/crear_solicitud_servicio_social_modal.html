@@ -1,0 +1,88 @@
+<div>
+    <div class="modal-content">
+        {% if object %}
+            <form role = "form" action="{% url 'proyeccionsocial:editar_solicitud_servicio_social' object.pk %}" method="POST">
+        {% else %}
+            <form role = "form" action="{% url 'proyeccionsocial:crear_solicitud_servicio_social' user.username %}" method="POST">
+        {% endif %}
+            <div class="modal-body">
+                {% csrf_token %}
+                    <div class="panel-body">
+                        {{form.errors}}
+
+                        {% if object %}
+                            <div class="row-xx">
+                                <div class="col-8 col-sm-6" style="display:none;">
+                                    {{form.carnet_estudiante.label_tag}}
+                                    {{form.carnet_estudiante}}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row-xx">
+                                <div class="col-8 col-sm-6">
+                                    {{form.carnet_estudiante.label_tag}}
+                                    {{form.carnet_estudiante}}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.codigo_entidad.label_tag}}
+                            </div>
+                            <div  class="col-8 col-sm-6">
+                                {{form.codigo_entidad}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.horas_semana.label_tag}}
+                            </div>
+                            <div  class="col-8 col-sm-6">
+                                {{form.horas_semana}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.dias_semana.label_tag}}
+                            </div>
+                            <div  class="col-8 col-sm-6">
+                                {{form.dias_semana}}
+                            </div>
+                        </div>
+
+                       <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.modalidad.label_tag}}
+                                {{form.modalidad}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.fecha_inicio.label_tag}}
+                                {{form.fecha_inicio}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.fecha_fin.label_tag}}
+                                {{form.fecha_fin}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-lg-12 text-right">
+                        <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Guardar">
+                        <a href = "{% url 'proyeccionsocial:consulta_solicitud_servicio_social' user.username %}"><input type="button" href="{% url 'proyeccionsocial:consulta_solicitud_servicio_social' user.username %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Cancelar"></a>
+                    </div>
+                </div>
+            </form>
+        </form>
+    </div>
+</div>

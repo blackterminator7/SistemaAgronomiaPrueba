@@ -1,0 +1,163 @@
+{% extends 'base/base.html' %}
+{%block title%}
+Control Estudiante
+{%endblock%}
+{% block content %}
+
+  <header>
+    <div class="container">
+        <h2 align="center" class="form-titulo" style ="margin-left: 5px;">Control de Estudiante</h2>
+        </br></br>
+
+        {% if request.user.usuario_administrador %}
+            <input type="button" class = "btn-buscar btn-busqueda" onclick="window.location.href='{% url 'proyeccionsocial:crear_estudiante' user.username %}'" value="Agregar Estudiante"></br></br>
+        {% endif %}
+
+        </br>
+
+    </div>
+  </header>
+
+<div class="container">
+
+    {% if request.user.usuario_administrador %}
+        <!-- Boton Buscar -->
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'proyeccionsocial:consulta_estudiante_buscar' %}">
+                {% csrf_token %} 
+                <input type="text" name="carnet_estudiante"  id = "carnet_estudiante" class = "input-style" placeholder="Porfavor Ingrese su Carnet" required pattern="([a-zA-Z]{2}[0-9]{5})" maxlength="7">
+                <input class="btn-buscar btn-busqueda" type = "submit" value = "Buscar" id = "buscarEstudiante">
+            </form>
+        </div>
+    {% endif %}
+
+    </br>
+
+    <div>
+        <table>
+            <thead>
+        	   <tr>
+                    <th>Carnet</th>
+            		<th>Nombre</th>
+                    <th>Sexo</th>
+            	    <th>Telefono</th>
+            	    <th>Correo</th>
+            	    <th>Direccion</th>
+                    <th>Editar</th>
+                {% if request.user.usuario_administrador %}
+                    <th>Eliminar</th>
+                {% endif %}
+                    <th>Agregar Estudios</th>
+        		</tr>
+            </thead>
+
+        {% if request.user.usuario_administrador %}
+            {% if estudiante_list %}
+            {% for est in estudiante_list %}
+
+        		<tr class="etiqueta-tr">
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.carnet_estudiante }}</td>
+            		<td class="th-borde width-th-xx" style = "text-align:center;">{{ est.nombre_estudiante}} {{ est.apellido_estudiante}}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.sexo_estudiante }}</td>
+            		<td class="th-borde width-th-xx" style = "text-align:center;">{{ est.telefono_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.correo_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.direccion_estudiante }}</td>
+
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:editar_estudiante' est.pk %}" onclick="window.location.href='{% url 'proyeccionsocial:editar_estudiante' est.pk %}'" class = "btn">Editar</a></td>
+
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "#" onclick = "return abrir_modal('{% url 'proyeccionsocial:eliminar_estudiante' est.pk %}', 'Eliminar registro con {{ est.carnet_estudiante }}')" class = "btn">Eliminar</a></td>
+
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}" onclick = "return '{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}' )" class = "btn">Agregar Estudio</a></td>
+        		</tr>
+
+            {% endfor %}
+            {% endif %}
+
+        {% else %}
+
+            {% if queryset %}
+            {% for est2 in queryset %}
+
+                <tr class="etiqueta-tr">
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est2.carnet_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est2.nombre_estudiante}} {{ est2.apellido_estudiante}}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est2.sexo_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est2.telefono_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est2.correo_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est2.direccion_estudiante }}</td>
+                    
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:editar_estudiante' est2.pk %}" onclick="window.location.href='{% url 'proyeccionsocial:editar_estudiante' est2.pk %}'" class = "btn">Editar</a></td>
+
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}" onclick = "return '{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}' )" class = "btn">Agregar Estudio</a></td>
+                </tr>
+
+            {% endfor %}
+            {% else %}
+
+                {% ifequal suma " " %}
+                    <input type="button" class = "btn-buscar btn-busqueda" onclick="window.location.href='{% url 'proyeccionsocial:crear_estudiante' user.username %}'" value="Agregar"></br></br>
+                {% endifequal %}
+
+            {% endif %}         
+
+        {% endif %}
+
+        {% if request.user.usuario_administrador %}
+            {% if estudiante_busc %}
+            {% for est in estudiante_busc %}
+            
+                <tr class="etiqueta-tr">
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.carnet_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.nombre_estudiante}} {{ est.apellido_estudiante}}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.sexo_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.telefono_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.correo_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ est.direccion_estudiante }}</td>
+                    
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:editar_estudiante' est.pk %}" onclick="window.location.href='{% url 'proyeccionsocial:editar_estudiante' est.pk %}'" class = "btn">Editar</a></td>
+
+                {% if request.user.usuario_administrador %}
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "#" onclick = "return abrir_modal('{% url 'proyeccionsocial:eliminar_estudiante' est.pk %}', 'Eliminar registro con {{ est.carnet_estudiante }}')" class = "btn">Eliminar</a></td>
+                {% endif %}  
+
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}" onclick = "return '{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}' )" class = "btn">Agregar Estudio</a></td>
+                </tr>
+
+            {% endfor %}
+            {% endif %}  
+        {% endif %}          
+
+    	</table>
+    </div>
+
+    {% if request.user.usuario_administrador %}
+        </br>
+        <input type="button" class = "btn-buscar btn-busqueda" onclick="window.location.href='{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}'" value="Estudio Universitario">
+        </br>
+    {% endif %}
+    </br>
+
+</div>
+
+    <div id = "popup"> 
+  
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+        var modal;
+        function abrir_modal(url, titulo)
+        {
+            modal = $('#popup').dialog({
+                title :titulo,
+                modal :true,
+                width :500,
+                resizable :false
+            }).dialog('open').load(url)
+        }
+    </script>
+
+{% endblock %}

@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+ {% block head %}
+ 	<title>{% block title %} Sistema Servicio Social {% endblock %}</title>
+
+	{% block static %}
+
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+	<!-- Favicon -->
+	<link type="image/x-icon" href="{% static 'img/favAgronomia.png'%}" rel="icon">
+
+	<!-- Enlaces -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+	<!-- Librerias -->
+	<link rel = "stylesheet" href = "{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
+	<link rel = "stylesheet" href = "{% static 'lib/animate/animate.min.css' %}">
+	<link rel = "stylesheet" href = "{% static 'lib/ionicons/css/ionicons.min.css' %}">
+	<script src = "{% static 'lib/jquery/jquery.min.js' %}"></script>
+	<script src = "{% static 'lib/jquery/jquery-migrate.min.js' %}"></script>
+	<script src = "{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+	<!-- CSS y Bootstrap -->
+	<link rel = "stylesheet" href = "{% static 'css/style.css' %}">
+	<link rel = "stylesheet" href = "{% static 'css/bootstrap.min.css' %}">
+	<link rel = "stylesheet" href = "{% static 'css/archivo.css' %}">
+	<link rel = "stylesheet" href = "{% static 'css/estilos_sec_not.css' %}">
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/jquery-ui.css' %}"/>
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/jquery.dataTables.min.css' %}"/>
+
+	<!-- JavaScript -->
+	<script type = "text/javascript" src = "{% static 'js/bootstrap.min.js' %}"></script>
+	<script type = "text/javascript" src = "{% static 'js/jquery.js' %}" charset="UTF-8"></script>
+	<script type = "text/javascript" src = "{% static 'js/bootstrap.min.js' %}" charset="UTF-8"></script>
+	<script type = "text/javascript" src = "{% static 'js/jquery-ui.js' %}"></script>
+	<script type = "text/javascript" src = "{% static 'js/jquery.dataTables.min.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script type = "text/javascript" src = "{% static 'js/main.js' %}"></script>
+  <script>
+      {% if messages %}
+          var html_mensaje = '';
+          {% for mensaje in messages %}
+              html_mensaje += '{{ mensaje }}';
+          {% endfor %}
+          notificacionError(html_mensaje);
+      {% endif %}
+  </script>
+
+	{% endblock %}
+
+{% endblock %}
+
+  {% block extra_css %}
+  {% endblock extra_css %}
+
+</head>
+
+<body>
+
+  <header id="header">
+    <div class="container-fluid navbar navbar-light">
+
+      <div id="logo" class="pull-left">
+        <a  href="{% url 'proyeccionsocial:index' user.username %}"><img src="{% static 'img/logoUPSAgro.png' %}" class ="imglogo"></a>
+        <h1>Servicio Social - Agronomia.</h1>
+      </div>
+
+      <div id="logo" class="pull-rigth">
+				<input type="button" href="" class="btn-success btn" name="submit" value="{{ user.username }}" disabled style="background-color:transparent; border:none;"></a> 
+        <a href="{% url 'usuario:logout' %}" style="text-decoration:none"><input type="button" href="{% url 'usuario:logout' %}" class="btn btn-success btn-sm" name="submit" value="Cerrar Sesi&oacute;n" style="background:green;"></a> 
+			</div>
+
+    </div>
+
+    <div class="bot">
+      <ul class="nav-menu">
+
+        <li class="list-group-item" onclick="window.location.href='{% url 'proyeccionsocial:index' user.username %}'"><a style="text-decoration:none" href="{% url 'proyeccionsocial:index' user.username %}">Inicio</a></li>
+
+
+  {% if user.is_authenticated %}
+        <li class="list-group-item" onclick="window.location.href='{% url 'proyeccionsocial:consulta_estudiante' user.username %}'"><a style="text-decoration:none" href="{% url 'proyeccionsocial:consulta_estudiante' user.username %}">Estudiante</a></li>
+
+
+
+<!-- Debo Borrar Esta Linea, solo es para prueba -->
+      {% ifequal resp 'Si' %}
+        <li class="list-group-item" onclick="window.location.href='{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social' user.username %}'' "><a style="text-decoration:none" href="{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social' user.username %} ">Solicitudes</a></li>
+      {% endifequal %}
+<!-- Fin de la Prueba, solo la linea de arriba -->
+
+
+
+      {% if request.user.usuario_administrador %}
+        <li class="list-group-item" onclick="window.location.href='{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social' user.username %}'' "><a style="text-decoration:none" href="{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social' user.username %} ">Solicitudes</a></li>
+        
+        <li class="list-group-item" onclick=" "><a style="text-decoration:none" href=" ">Horas Sociales</a></li>
+
+        <li class="list-group-item" onclick=" "><a style="text-decoration:none" href=" ">Tutores</a></li>
+      {% endif %}
+
+
+
+      
+      <li class="list-group-item menu-has-children"><a style="text-decoration:none" href="#intro">Formularios</a>
+        <ul>
+          <li><a href = "{%url 'proyeccionsocial:generar_F1' 'RM17039' %}">Formulario F-1</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F2' 'RM17039' %}">Formulario F-2</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F3' 'RM17039' %}">Formulario F-3</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F4TI' 'RM17039' %}">Formulario F-4 - TI</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F4TE' 'RM17039' %}">Formulario F-4 - TE</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F6' 'RM17039' %}">Formulario F-6</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F7' 'RM17039' %}">Formulario F-7</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F8' 'RM17039' %}">Formulario F-8</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F9' 'RM17039' %}">Formulario F-9</a></li>
+          <li><a href = "{%url 'proyeccionsocial:generar_F11' 'RM17039' %}">Formulario F-11</a></li>
+        </ul>
+      </li>
+      
+
+        
+      {% if request.user.usuario_administrador %}
+
+        <li class="list-group-item menu-has-children"><a style="text-decoration:none" href="#intro">Opciones</a>
+          <ul>
+            <li><a href = "">Administrar Proyectos</a></li>
+
+            <li><a href = "">Administrar Carreras</a></li>
+
+            <li><a href = "{% url 'proyeccionsocial:consulta_ciclo' %}">Administrar Ciclos</a></li>
+            
+      {% if request.user.usuario_administrador or request.user.rol == 'DOC' %}
+        <li class="list-group-item"><a style="text-decoration:none" href="{% url 'usuario:inicio_usuarios' %}">Administrar Usuarios</a></li>
+      {% endif %}
+
+          </ul>
+        </li>
+      {% endif %}
+
+  {% endif %}
+        
+      </ul>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      </br></br></br></br></br></br></br>
+
+  		{% block content %}
+        </br></br></br></br></br></br></br></br></br></br><img src = "{% static 'img/FondoUPS_Inicio.png' %}">
+      {%endblock%}
+
+    </div>
+  </section>
+
+  {% block js %}
+
+	{% endblock %}
+
+</body>
+
+</html>

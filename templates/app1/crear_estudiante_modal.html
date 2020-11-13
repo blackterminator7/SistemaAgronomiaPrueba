@@ -1,0 +1,85 @@
+<div>
+    <div class="modal-content">
+        {% if object %}
+            <form role = "form" action="{% url 'proyeccionsocial:editar_estudiante' object.pk %}" method="POST">
+        {% else %}
+            <form role = "form" action="{% url 'proyeccionsocial:crear_estudiante' user.username %}" method="POST">
+        {% endif %}
+            <div class="modal-body">
+                {% csrf_token %}
+                    <div class="panel-body">
+                        {{form.errors}}
+
+                        {% if object %}
+                            <div class="row-xx">
+                                <div class="col-8 col-sm-6" style="display:none;">
+                                    {{form.carnet_estudiante.label_tag}}
+                                    {{form.carnet_estudiante}}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row-xx">
+                                <div class="col-8 col-sm-6">
+                                    {{form.carnet_estudiante.label_tag}}
+                                    {{form.carnet_estudiante}}
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                       <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.nombre_estudiante.label_tag}}
+                                {{form.nombre_estudiante}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.apellido_estudiante.label_tag}}
+                                {{form.apellido_estudiante}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.sexo_estudiante.label_tag}}
+                            </div>
+                            <div class="col-4 col-sm-6">
+                                {{form.sexo_estudiante}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.telefono_estudiante.label_tag}}
+                                {{form.telefono_estudiante}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.correo_estudiante.label_tag}}
+                                {{form.correo_estudiante}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.direccion_estudiante.label_tag}}
+                                {{form.direccion_estudiante}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-lg-12 text-right">
+                        <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Guardar">
+                        <a href = "{% url 'proyeccionsocial:consulta_estudiante' user.username %}"><input type="button" href="{% url 'proyeccionsocial:consulta_estudiante' user.username %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Cancelar"></a>
+                    </div>
+                </div>
+            </form>
+        </form>
+    </div>
+</div>

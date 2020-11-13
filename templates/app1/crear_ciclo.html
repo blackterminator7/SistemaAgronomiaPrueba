@@ -1,0 +1,36 @@
+<div>
+    <div class="modal-content">
+        {% if object %}
+            <form role = "form" action="{% url 'proyeccionsocial:editar_ciclo' object.pk %}" method="POST">
+        {% else %}
+            <form role = "form" action="{% url 'proyeccionsocial:crear_ciclo' %}" method="POST">
+        {% endif %}
+            <div class="modal-body">
+                {% csrf_token %}
+                    <div class="panel-body">
+                        {{form.errors}}
+                        <div class="row-xx">
+                            {% if object %}
+                                <div class="col-xx" style="display:none;">
+                                    {{form.codigo_ciclo.label_tag}}
+                                    {{form.codigo_ciclo}}
+                            {% else %}
+                                <div class="col-xx">
+                                    {{form.codigo_ciclo.label_tag}}
+                                    {{form.codigo_ciclo}}
+                            {% endif %}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-lg-12 text-right">
+                        <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Guardar">
+                        <a href = "{% url 'proyeccionsocial:consulta_ciclo' %}"><input type="button" href="{% url 'proyeccionsocial:consulta_ciclo' %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Cancelar"></a>
+                    </div>
+                </div>
+            </form>
+        </form>
+    </div>
+</div>

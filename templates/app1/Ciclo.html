@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{%block title%}
+  Registro Ciclo
+{%endblock%}
+{% block content %}
+
+  <header>
+    <div class="container">
+      <h2 align="center" class="form-titulo" style ="margin-left: 5px;">Registro de Ciclo</h2>
+      <input  class="btn-buscar btn-busqueda" type="button" href="#" onclick="return abrir_modal('{% url 'proyeccionsocial:crear_ciclo' %}', 'Registrar Ciclo')" value="Agregar">
+      </br></br></br>
+    </div>
+  </header>
+
+  <div class="container">
+    <div>
+    <table>
+        <thead>
+            <tr>
+                <th>C&oacute;digo Ciclo</th>
+                <th>Ciclo Lectivo</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+          {% if ciclo_list %}
+          {% for ci in ciclo_list %}
+
+            <tr class="etiqueta-tr">
+                <td class="th-borde width-th-xx" style = "text-align:center;">{{ ci.codigo_ciclo }}</td>
+                <td class="th-borde width-th-xx" style = "text-align:center;">{{ ci.tipo_ciclo }}</td>
+                <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "#" onclick = "return abrir_modal('{% url 'proyeccionsocial:editar_ciclo' ci.pk %}', 'Modificar registro con {{ ci.codigo_ciclo }}')" class = "btn">Editar</a></td>
+                <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "#" onclick = "return abrir_modal('{% url 'proyeccionsocial:eliminar_ciclo' ci.pk %}', 'Eliminar registro con {{ ci.codigo_ciclo }}')" class = "btn">Eliminar</a></td>
+            </tr>
+
+          {% endfor %}
+          {% endif %}
+
+            </table>
+    </div>
+    
+  </div>
+
+    <div id = "popup">
+  
+  </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+        var modal;
+        function abrir_modal(url, titulo)
+        {
+            modal = $('#popup').dialog({
+                title :titulo,
+                modal :true,
+                width :500,
+                resizable :false
+            }).dialog('open').load(url)
+        }
+    </script>
+
+{% endblock %}

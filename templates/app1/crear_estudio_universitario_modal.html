@@ -1,0 +1,85 @@
+<div>
+    <div class="modal-content">
+        {% if object %}
+            <form role = "form" action="{% url 'proyeccionsocial:editar_estudio_universitario' object.pk %}" method="POST">
+        {% else %}
+            <form role = "form" action="{% url 'proyeccionsocial:crear_estudio_universitario' user.username %}" method="POST">
+        {% endif %}
+            <div class="modal-body">
+                {% csrf_token %}
+                    <div class="panel-body">
+                        {{form.errors}}
+
+                        {% if object %}
+                            <div class="row-xx" style="display:none">
+                                <div class="col-8 col-sm-6">
+                                    {{form.carnet_estudiante.label_tag}}
+                                </div>
+                                <div  class="col-8 col-sm-6">
+                                    {{form.carnet_estudiante}}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row-xx">
+                                <div class="col-8 col-sm-6">
+                                    {{form.carnet_estudiante.label_tag}}
+                                </div>
+                                <div  class="col-8 col-sm-6">
+                                    {{form.carnet_estudiante}}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.codigo_carrera.label_tag}}
+                            </div>
+                            <div  class="col-8 col-sm-6">
+                                {{form.codigo_carrera}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.codigo_ciclo.label_tag}}
+                            </div>
+                            <div  class="col-8 col-sm-6">
+                                {{form.codigo_ciclo}}
+                            </div>
+                        </div>
+
+                       <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.porc_carrerar_aprob.label_tag}}
+                                {{form.porc_carrerar_aprob}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.unidades_valorativas.label_tag}}
+                                {{form.unidades_valorativas}}
+                            </div>
+                        </div>
+
+                        <div class="row-xx">
+                            <div class="col-8 col-sm-6">
+                                {{form.experiencia_areas_conoc.label_tag}}
+                            </div>
+                            <div class="col-4 col-sm-6">
+                                {{form.experiencia_areas_conoc}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-lg-12 text-right">
+                        <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Guardar">
+                        <a href = "{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}"><input type="button" href="{% url 'proyeccionsocial:consulta_estudio_universitario' user.username %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn-buscar" name="submit" value="Cancelar"></a>
+                    </div>
+                </div>
+            </form>
+        </form>
+    </div>
+</div>

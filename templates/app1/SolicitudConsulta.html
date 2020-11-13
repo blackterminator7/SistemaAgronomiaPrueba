@@ -1,0 +1,141 @@
+{% extends 'base/base.html' %}
+{%block title%}
+Solicitud Servicio Social
+{%endblock%}
+{% block content %}
+
+  <header>
+    <div class="container">
+        <h2 align="center" class="form-titulo" style ="margin-left: 5px;">Solicitudes Para Servicio Social</h2>
+        </br></br>
+        </br>
+    </div>
+  </header>
+
+<div class="container">
+
+    {% if request.user.usuario_administrador %}
+        <!-- Boton Buscar -->
+        <div align="center" class="busqueda">
+            <form method="POST" action="{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social_buscar' %}">
+                {% csrf_token %} 
+                <input type="text" name="carnet_estudiante"  id = "carnet_estudiante" class = "input-style" placeholder="Porfavor Ingrese su Carnet" required  pattern="([a-zA-Z]{2}[0-9]{5})"  maxlength="7">
+                <input class="btn-buscar btn-busqueda" type = "submit" value = "Buscar" id = "buscarEstudiante">
+            </form>
+        </div>
+    {% endif %}
+
+    </br>
+
+    <div>
+        <table>
+            <thead>
+        	   <tr>
+                    <th>Carnet</th>
+                    <th>Entidad</th>
+                    <th>Horas Semana</th>
+                    <th>D&iacute;as Semana</th>
+                    <th>Modalidad</th>
+                    <th>Fecha Inicio</th>
+                    <th>Editar</th>
+                {% if request.user.usuario_administrador %}
+                    <th>Eliminar</th>
+                {% endif %}
+                    <th>Imprimir</th>
+                {% if request.user.usuario_administrador %}
+                    <th>Estado Solicitud</th>
+                {% endif %}
+        		</tr>
+            </thead>
+
+        {% if request.user.usuario_administrador %}
+            {% if solicitudes_list %}
+            {% for sol in solicitudes_list %}
+
+        		<tr class="etiqueta-tr">
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol.carnet_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol.codigo_entidad }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol.horas_semana }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol.dias_semana }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol.modalidad }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol.fecha_inicio }}</td>
+                    
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:editar_solicitud_servicio_social2' sol.pk %}" onclick="window.location.href='{% url 'proyeccionsocial:editar_solicitud_servicio_social2' sol.pk %}'" class = "btn">Editar</a></td>
+                    
+                {% if request.user.usuario_administrador %}
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "#" onclick = "return abrir_modal('{% url 'proyeccionsocial:eliminar_solicitud_servicio_social2' sol.pk %}', 'Eliminar registro con {{ sol.carnet_estudiante }}')" class = "btn">Eliminar</a></td>
+                {% endif %}
+
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{%url 'proyeccionsocial:generar_F1' sol.pk %}" class = "btn">Imprimir F-1</a></td>
+
+                {% if request.user.usuario_administrador %}
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:crear_estado_solicitud_servicio_social2' user.username %}" onclick="window.location.href='{% url 'proyeccionsocial:crear_estado_solicitud_servicio_social2' user.username %}'" class = "btn">Agregar Estado</a></td>
+                {% endif %}
+
+        		</tr>
+
+            {% endfor %}
+            {% endif %}
+        {% endif %}
+
+
+        {% if request.user.usuario_administrador %}
+            {% if estudiante_busc %}
+            {% for sol2 in estudiante_busc %}
+            
+                <tr class="etiqueta-tr">
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol2.carnet_estudiante }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol2.codigo_entidad }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol2.horas_semana }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol2.dias_semana }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol2.modalidad }}</td>
+                    <td class="th-borde width-th-xx" style = "text-align:center;">{{ sol2.fecha_inicio }}</td>
+                    
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:editar_solicitud_servicio_social2' sol2.pk %}" onclick="window.location.href='{% url 'proyeccionsocial:editar_solicitud_servicio_social2' sol2.pk %}'" class = "btn">Editar</a></td>
+                    
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "#" onclick = "return abrir_modal('{% url 'proyeccionsocial:eliminar_solicitud_servicio_social2' sol2.pk %}', 'Eliminar registro con {{ sol2.carnet_estudiante }}')" class = "btn">Eliminar</a></td>
+
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{%url 'proyeccionsocial:generar_F1' sol2.pk %}" class = "btn">Imprimir F-1</a></td>
+
+                    <td class="th-borde width-th-xx" style = "text-align:center;"><a class="a-btn" href = "{% url 'proyeccionsocial:crear_estado_solicitud_servicio_social2' user.username %}" onclick="window.location.href='{% url 'proyeccionsocial:crear_estado_solicitud_servicio_social2' user.username %}'" class = "btn">Agregar Estado</a></td>
+                </tr>
+
+            {% endfor %}
+            {% endif %}  
+        {% endif %}  
+
+    	</table>
+    </table>
+    </div>
+    
+    </br>
+    
+    <a href = "{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social_consulta' user.username %}"><input class = "btn-buscar btn-busqueda"  type="button" href = "{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social_consulta' user.username %}" onclick = "return '{% url 'proyeccionsocial:consulta_estado_solicitud_servicio_social_consulta' user.username %}' )" value="Consultar Estados"></a>
+    </br>
+    </br>
+
+
+</div>
+
+    <div id = "popup"> 
+  
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+        var modal;
+        function abrir_modal(url, titulo)
+        {
+            modal = $('#popup').dialog({
+                title :titulo,
+                modal :true,
+                width :500,
+                resizable :false
+            }).dialog('open').load(url)
+        }
+    </script>
+
+{% endblock %}
